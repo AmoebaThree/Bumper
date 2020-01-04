@@ -10,13 +10,13 @@ For when you crash into things
 
 ## Message Spec
 
+Format: \<channel> "message"
+
 **Inputs**
 
 None
 
 **Outputs**
-
-Format: \<channel> "message"
 
 * \<bumper-left> "left-on"
   * Left bumper falling edge, switch has been depressed
