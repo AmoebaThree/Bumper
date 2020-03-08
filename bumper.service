@@ -2,7 +2,7 @@
 Description=Bumper - for when you crash into things
 
 [Service]
-ExecStart=/usr/bin/python /home/pi/code/Bumper/bumper.py
+ExecStart=/usr/bin/python /home/pi/zoidberg-deploy/bumper/bumper.py
 Environment=PYTHONUNBUFFERED=1
 Restart=on-failure
 Type=notify
