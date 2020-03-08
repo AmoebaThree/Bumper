@@ -30,3 +30,6 @@ None
 * \<bumper-right> "right-off"
   * Right bumper rising edge, switch has been released 
   * Triggered automatically
+* \<bumper> "*"
+  * This channel receives all messages as above
+  * "left-on" "left-off" "right-on" "right-off"
