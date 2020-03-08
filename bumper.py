@@ -14,19 +14,15 @@ if __name__ == '__main__':
     try:
         def left_on(e):
             r.publish("bumper-left", "left-on")
-            r.publish("bumper", "left-on")
 
         def left_off(e):
             r.publish("bumper-left", "left-off")
-            r.publish("bumper", "left-off")
 
         def right_on(e):
             r.publish("bumper-right", "right-on")
-            r.publish("bumper", "right-on")
 
         def right_off(e):
             r.publish("bumper-right", "right-off")
-            r.publish("bumper", "right-off")
 
         listener.register(6, pifacedigitalio.IODIR_FALLING_EDGE, left_on)
         listener.register(6, pifacedigitalio.IODIR_RISING_EDGE, left_off)
