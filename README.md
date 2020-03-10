@@ -2,12 +2,6 @@
 
 For when you crash into things
 
-## Prerequisites
-
-- `sudo apt-get install python-systemd`
-- `pip install redis`
-- You also need to follow the [PiFace setup](https://github.com/AmoebaThree/RaspberryPiSetup/blob/master/README.md#piface)
-
 ## Message Spec
 
 Format: \<channel> "message"
