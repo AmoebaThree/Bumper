@@ -8,7 +8,8 @@ Format: \<channel> "message"
 
 **Inputs**
 
-None
+* \<bumper> *
+  * Triggers a request for status of the bumpers
 
 **Outputs**
 
