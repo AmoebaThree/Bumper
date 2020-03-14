@@ -1,48 +1,35 @@
 if __name__ == '__main__':
     import systemd.daemon
-    import pifacedigitalio
     import redis
     import time
 
+    left_input = '6'
+    right_input = '7'
+    left_channel = 'pfd.input.' + left_input
+    right_channel = 'pfd.input.' + right_input
+    request_channel = 'bumper'
+
     print('Startup')
-    pfd = pifacedigitalio.PiFaceDigital()
-    listener = pifacedigitalio.InputEventListener(chip=pfd)
     r = redis.Redis(host='192.168.0.1', port=6379, db=0)
     p = r.pubsub(ignore_subscribe_messages=True)
-    p.subscribe('bumper')
+    p.subscribe(request_channel, left_channel, right_channel)
     print('Startup complete')
     systemd.daemon.notify('READY=1')
 
     try:
-        def left_on(e):
-            r.publish("bumper-left", "left-on")
-
-        def left_off(e):
-            r.publish("bumper-left", "left-off")
-
-        def right_on(e):
-            r.publish("bumper-right", "right-on")
-
-        def right_off(e):
-            r.publish("bumper-right", "right-off")
-
-        listener.register(6, pifacedigitalio.IODIR_FALLING_EDGE, left_on)
-        listener.register(6, pifacedigitalio.IODIR_RISING_EDGE, left_off)
-        listener.register(7, pifacedigitalio.IODIR_FALLING_EDGE, right_on)
-        listener.register(7, pifacedigitalio.IODIR_RISING_EDGE, right_off)
-        listener.activate()
-
         for message in p.listen():
-            # If message is received, send current status
-            if pfd.input_pins[6].value > 0:
-                left_on(None)
-            else:
-                left_off(None)
-            if pfd.input_pins[7].value > 0:
-                right_on(None)
-            else:
-                right_off(None)
+            if message.channel == request_channel:
+                r.publish('pfd.inputs', left_input)
+                r.publish('pfd.inputs', right_input)
+            elif message.channel == left_channel:
+                if message.message == "input." + left_input + ".on":
+                    r.publish('bumper.left', 'left.on')
+                elif message.message == "input." + left_input + ".off":
+                    r.publish('bumper.left', 'left.off')
+            elif message.channel == right_channel:
+                if message.message == "input." + right_input + ".on":
+                    r.publish('bumper.right', 'right.on')
+                elif message.message == "input." + right_input + ".off":
+                    r.publish('bumper.right', 'right.off')
     except:
-        listener.deactivate()
-        pfd.deinit_board()
         print("Goodbye")
