@@ -22,14 +22,14 @@ if __name__ == '__main__':
                 r.publish('pfd.inputs', left_input)
                 r.publish('pfd.inputs', right_input)
             elif message['channel'] == left_channel:
-                if message['message'] == "input." + left_input + ".on":
+                if message['data'] == "input." + left_input + ".on":
                     r.publish('bumper.left', 'left.on')
-                elif message['message'] == "input." + left_input + ".off":
+                elif message['data'] == "input." + left_input + ".off":
                     r.publish('bumper.left', 'left.off')
             elif message['channel'] == right_channel:
-                if message['message'] == "input." + right_input + ".on":
+                if message['data'] == "input." + right_input + ".on":
                     r.publish('bumper.right', 'right.on')
-                elif message['message'] == "input." + right_input + ".off":
+                elif message['data'] == "input." + right_input + ".off":
                     r.publish('bumper.right', 'right.off')
     except:
         print("Goodbye")
