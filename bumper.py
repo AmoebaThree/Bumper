@@ -32,4 +32,5 @@ if __name__ == '__main__':
                 elif message['data'] == "input." + right_input + ".off":
                     r.publish('bumper.right', 'right.off')
     except:
+        p.close()
         print("Goodbye")
