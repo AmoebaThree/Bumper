@@ -44,8 +44,8 @@ def execute():
                 elif message['data'] == right_input_off_msg:
                     r.publish('bumper.right', 'right.off')
     except:
-        r.publish('services', 'bumper.off')
         p.close()
+        r.publish('services', 'bumper.off')
         print('Goodbye')
 
 
