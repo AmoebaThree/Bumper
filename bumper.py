@@ -22,8 +22,9 @@ def execute():
     p = r.pubsub(ignore_subscribe_messages=True)
     p.subscribe(request_channel, left_channel, right_channel)
 
-    print('Startup complete')
+    r.publish('services', 'bumper.on')
     systemd.daemon.notify('READY=1')
+    print('Startup complete')
 
     try:
         for message in p.listen():
@@ -43,6 +44,7 @@ def execute():
                 elif message['data'] == right_input_off_msg:
                     r.publish('bumper.right', 'right.off')
     except:
+        r.publish('services', 'bumper.off')
         p.close()
         print('Goodbye')
 
