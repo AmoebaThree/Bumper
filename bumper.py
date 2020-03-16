@@ -1,7 +1,10 @@
-if __name__ == '__main__':
-    import systemd.daemon
-    import redis
-    import time
+import systemd.daemon
+import redis
+import time
+
+
+def execute():
+    print('Startup')
 
     left_input = '6'
     right_input = '7'
@@ -9,11 +12,16 @@ if __name__ == '__main__':
     right_channel = 'pfd.input.' + right_input
     request_channel = 'bumper'
 
-    print('Startup')
+    left_input_on_msg = 'input.' + left_input + '.on'
+    left_input_off_msg = 'input.' + left_input + '.off'
+    right_input_on_msg = 'input.' + right_input + '.on'
+    right_input_off_msg = 'input.' + right_input + '.off'
+
     r = redis.Redis(host='192.168.0.1', port=6379,
                     db=0, decode_responses=True)
     p = r.pubsub(ignore_subscribe_messages=True)
     p.subscribe(request_channel, left_channel, right_channel)
+
     print('Startup complete')
     systemd.daemon.notify('READY=1')
 
@@ -22,16 +30,22 @@ if __name__ == '__main__':
             if message['channel'] == request_channel:
                 r.publish('pfd.inputs', left_input)
                 r.publish('pfd.inputs', right_input)
+
             elif message['channel'] == left_channel:
-                if message['data'] == "input." + left_input + ".on":
+                if message['data'] == left_input_on_msg:
                     r.publish('bumper.left', 'left.on')
-                elif message['data'] == "input." + left_input + ".off":
+                elif message['data'] == left_input_off_msg:
                     r.publish('bumper.left', 'left.off')
+
             elif message['channel'] == right_channel:
-                if message['data'] == "input." + right_input + ".on":
+                if message['data'] == right_input_on_msg:
                     r.publish('bumper.right', 'right.on')
-                elif message['data'] == "input." + right_input + ".off":
+                elif message['data'] == right_input_off_msg:
                     r.publish('bumper.right', 'right.off')
     except:
         p.close()
-        print("Goodbye")
+        print('Goodbye')
+
+
+if __name__ == '__main__':
+    execute()
