@@ -28,8 +28,8 @@ def execute():
     try:
         for message in p.listen():
             if message['channel'] == request_channel:
-                r.publish('pfd.inputs', left_input)
-                r.publish('pfd.inputs', right_input)
+                r.publish('pfd.input', left_input)
+                r.publish('pfd.input', right_input)
 
             elif message['channel'] == left_channel:
                 if message['data'] == left_input_on_msg:
