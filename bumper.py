@@ -26,6 +26,10 @@ def execute():
     print('Startup complete')
 
     try:
+        # Publish initial state
+        r.publish('pfd.input', left_input)
+        r.publish('pfd.input', right_input)
+
         for message in p.listen():
             if message['channel'] == request_channel:
                 r.publish('pfd.input', left_input)
