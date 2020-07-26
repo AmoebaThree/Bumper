@@ -6,22 +6,22 @@ For when you crash into things
 
 Format: \<channel> "message"
 
-**Inputs**
+### Inputs
 
 * \<bumper> *
   * Triggers a request for status of the bumpers
 
-**Outputs**
+### Outputs
 
 * \<bumper.left> "left.on"
   * Left bumper falling edge, switch has been depressed
-  * Triggered automatically
+  * Triggered automatically, or in response to a status query
 * \<bumper.left> "left.off"
   * Left bumper rising edge, switch has been released
-  * Triggered automatically
+  * Triggered automatically, or in response to a status query
 * \<bumper.right> "right.on"
   * Right bumper falling edge, switch has been depressed
-  * Triggered automatically
+  * Triggered automatically, or in response to a status query
 * \<bumper.right> "right.off"
   * Right bumper rising edge, switch has been released 
-  * Triggered automatically
+  * Triggered automatically, or in response to a status query
